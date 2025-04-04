@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(180deg, rgb(49, 156, 115), #035c4d);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      header {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      #login-title {
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      #login-form {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 300px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      input {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        width: 100%;
+      }
+
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .btn {
+        background: #00897b;
+        color: white;
+        font-size: 1.2rem;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        width: 100%;
+      }
+
+      .btn:hover {
+        background: #00bfa5;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <input type="checkbox" id="signup_toggle" />
+      <form class="form">
+        <div class="form_front">
+          <div class="form_details">Login</div>
+          <input placeholder="Username" class="input" type="text" />
+          <input placeholder="Password" class="input" type="text" />
+          <button class="btn">Login</button>
+          <span class="switch"
+            >Don't have an account?
+            <label class="signup_tog" for="signup_toggle"> Sign Up </label>
+          </span>
+        </div>
+        <div class="form_back">
+          <div class="form_details">SignUp</div>
+          <input placeholder="Firstname" class="input" type="text" />
+          <input placeholder="Username" class="input" type="text" />
+          <input placeholder="Password" class="input" type="text" />
+          <input placeholder="Confirm Password" class="input" type="text" />
+          <button class="btn">Signup</button>
+          <span class="switch"
+            >Already have an account?
+            <label class="signup_tog" for="signup_toggle"> Sign In </label>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+
+    <script>
+     document.querySelector(".form_front .btn").addEventListener("click", async function(event) {
+          event.preventDefault();
+
+          if (typeof window.ethereum === "undefined") {
+              alert("MetaMask is not installed. Please install it to continue.");
+              return;
+          }
+
+          const web3 = new Web3(window.ethereum);
+          try {
+              const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+              const userAddress = accounts[0];
+              localStorage.setItem("userAddress", userAddress);
+
+              const urlParams = new URLSearchParams(window.location.search);
+              const role = urlParams.get("role");
+
+              if (role === "doctor") {
+                  window.location.href = "doctors.html";
+              } else if (role === "patient") {
+                  window.location.href = "patients.html";
+              } else if (role === "pharmacist") {
+                  window.location.href = "pharmacist.html";
+              } else {
+                  alert("Invalid role. Please login again.");
+              }
+          } catch (error) {
+              console.error("Error logging in:", error);
+              alert("Login failed. Please try again.");
+          }
+      });
+  </script>
+  </body>
+</html>
