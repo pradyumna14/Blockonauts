@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SafePrescribe - Home</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Audrey:wght@900&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: url("clean-medical-background_53876-97927.avif") no-repeat
+          center center fixed;
+        background-size: cover;
+        background-color: #d6eeea;
+        color: rgb(62, 142, 112);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 20px;
+      }
+
+      header {
+        width: 100%;
+        max-width: 1000px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 8rem;
+        font-weight: 900;
+        font-family: "Audrey", sans-serif;
+        text-align: center;
+        line-height: 0.9;
+        margin-bottom: 0;
+        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+      }
+
+      #finalHeading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 1s ease;
+        font-weight: 900;
+      }
+
+      #finalHeading .safe {
+        color: rgb(9, 127, 90);
+        font-weight: 900;
+        text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+          0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+          0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+          0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      #finalHeading .prescribe {
+        color: #5fae91;
+        font-weight: 900;
+        text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+          0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+          0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+          0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      #animatedHeading {
+        text-align: center;
+        margin: 0 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        height: 180px;
+        position: relative;
+      }
+
+      .heading-container {
+        position: relative;
+        height: 160px;
+        margin-bottom: 10px;
+        width: 100%;
+        overflow: visible;
+      }
+
+      .pixel {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+
+      .pixel.safe {
+        background-color: rgb(9, 127, 90);
+      }
+
+      .pixel.prescribe {
+        background-color: #5fae91;
+      }
+
+      p {
+        font-size: 1.4rem;
+        margin-top: 5px;
+        padding-top: 0;
+        opacity: 0.8;
+        font-family: "Roboto", sans-serif;
+        line-height: 1.3;
+      }
+
+      header p:first-of-type {
+        margin-top: 0px;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      .animated-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 16px 36px;
+        border: 4px solid;
+        border-color: transparent;
+        font-size: 16px;
+        background-color: inherit;
+        border-radius: 100px;
+        font-weight: 600;
+        color: rgb(62, 142, 112);
+        box-shadow: 0 0 0 2px rgb(247, 248, 246);
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        text-decoration: none;
+      }
+
+      .animated-button svg {
+        position: absolute;
+        width: 24px;
+        fill: rgb(254, 254, 254);
+        z-index: 9;
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .animated-button .arr-1 {
+        right: 16px;
+      }
+
+      .animated-button .arr-2 {
+        left: -25%;
+      }
+
+      .animated-button .circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .animated-button .text {
+        position: relative;
+        z-index: 1;
+        transform: translateX(-12px);
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        text-decoration: none;
+      }
+
+      .animated-button:hover {
+        box-shadow: 0 0 0 12px transparent;
+        color: #212121;
+        border-radius: 12px;
+      }
+
+      .animated-button:hover .arr-1 {
+        right: -25%;
+      }
+
+      .animated-button:hover .arr-2 {
+        left: 16px;
+      }
+
+      .animated-button:hover .text {
+        transform: translateX(12px);
+      }
+
+      .animated-button:hover svg {
+        fill: #212121;
+      }
+
+      .animated-button:active {
+        scale: 0.95;
+        box-shadow: 0 0 0 4px rgb(255, 255, 255);
+      }
+
+      .animated-button:hover .circle {
+        width: 220px;
+        height: 220px;
+        opacity: 1;
+      }
+
+      #accountInfo {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        opacity: 0.9;
+        color: rgb(62, 142, 112);
+      }
+
+      @media (max-width: 768px) {
+        header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 25px;
+        }
+
+        h1 {
+          font-size: 6rem;
+          text-align: center;
+          margin: 0 auto;
+        }
+
+        .heading-container {
+          height: 110px;
+          margin-bottom: 8px;
+        }
+
+        #animatedHeading {
+          height: 110px;
+        }
+
+        #finalHeading .safe,
+        #finalHeading .prescribe {
+          text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 2px 0 #bbb,
+            0 3px 0 #b9b9b9, 0 4px 0 #aaa, 0 4px 1px rgba(0, 0, 0, 0.1),
+            0 0 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.3),
+            0 2px 3px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.25),
+            0 7px 7px rgba(0, 0, 0, 0.2), 0 15px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .animated-button {
+          padding: 20px 40px;
+          font-size: 18px;
+        }
+
+        body {
+          background-size: cover;
+        }
+
+        p {
+          font-size: 1.3rem;
+          margin-top: 3px;
+        }
+
+        header p:first-of-type {
+          margin-top: 0px;
+        }
+
+        #finalHeading .safe,
+        #finalHeading .prescribe {
+          text-shadow: 1px 1px 0px rgba(9, 127, 90, 0.3),
+            3px 3px 0px rgba(9, 127, 90, 0.2),
+            0px 0px 6px rgba(0, 255, 179, 0.3), 0px 6px 10px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      @media (max-width: 480px) {
+        header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 20px;
+        }
+
+        h1 {
+          font-size: 4.5rem;
+          text-align: center;
+          margin: 0 auto;
+        }
+
+        .heading-container {
+          height: 90px;
+          margin-bottom: 5px;
+        }
+
+        #animatedHeading {
+          height: 90px;
+        }
+
+        #finalHeading .safe,
+        #finalHeading .prescribe {
+          text-shadow: 0 1px 0 #ccc, 0 1px 0 #c9c9c9, 0 2px 0 #bbb,
+            0 2px 0 #b9b9b9, 0 3px 0 #aaa, 0 3px 1px rgba(0, 0, 0, 0.1),
+            0 0 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.3),
+            0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.25),
+            0 5px 5px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .animated-button {
+          padding: 20px 40px;
+          font-size: 18px;
+        }
+
+        body {
+          background-size: cover;
+        }
+
+        .pixel {
+          width: 4px;
+          height: 4px;
+        }
+
+        p {
+          font-size: 1.2rem;
+          margin-top: 2px;
+        }
+
+        header p:first-of-type {
+          margin-top: 0px;
+        }
+
+        #finalHeading .safe,
+        #finalHeading .prescribe {
+          text-shadow: 1px 1px 0px rgba(9, 127, 90, 0.3),
+            2px 2px 0px rgba(9, 127, 90, 0.2),
+            0px 0px 4px rgba(0, 255, 179, 0.3), 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      #finalHeading .safe {
+        color: rgb(9, 127, 90);
+        font-weight: 900;
+        position: relative;
+
+        text-shadow: 2px 2px 0px rgba(9, 127, 90, 0.3),
+          4px 4px 0px rgba(9, 127, 90, 0.2), 0px 0px 8px rgba(0, 255, 179, 0.3),
+          0px 8px 15px rgba(0, 0, 0, 0.2);
+        filter: drop-shadow(0 0 5px rgba(0, 255, 179, 0.2));
+      }
+
+      #finalHeading .prescribe {
+        color: #5fae91;
+        font-weight: 900;
+        position: relative;
+
+        text-shadow: 2px 2px 0px rgba(95, 174, 145, 0.3),
+          4px 4px 0px rgba(95, 174, 145, 0.2),
+          0px 0px 8px rgba(0, 255, 179, 0.3), 0px 8px 15px rgba(0, 0, 0, 0.2);
+        filter: drop-shadow(0 0 5px rgba(0, 255, 179, 0.2));
+      }
+
+      #finalHeading .safe::before,
+      #finalHeading .prescribe::before {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgba(9, 127, 90, 0),
+          rgba(9, 127, 90, 0.7),
+          rgba(9, 127, 90, 0)
+        );
+        border-radius: 50%;
+        filter: blur(1px);
+        opacity: 0.7;
+      }
+
+      .heading-container::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 10px;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(9, 127, 90, 0),
+          rgba(0, 255, 179, 0.2),
+          rgba(9, 127, 90, 0)
+        );
+        filter: blur(8px);
+        opacity: 0.5;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="heading-container">
+        <div id="animatedHeading"></div>
+        <div id="finalHeading">
+          <span class="safe">Safe</span><span class="prescribe">Prescribe</span>
+        </div>
+      </div>
+      <p>Revolutionizing digital prescriptions with blockchain security.</p>
+      <p>
+        Secure, efficient, and hassle-free digital prescriptions for doctors,
+        patients, and pharmacists.
+      </p>
+    </header>
+
+    <div class="button-container">
+      <button id="connectWallet" class="animated-button">
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-2"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+        <span class="text">Connect MetaMask</span>
+        <span class="circle"></span>
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+      </button>
+      <a id="doctorLogin" href="#" class="animated-button">
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-2"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+        <span class="text">Login as Doctor</span>
+        <span class="circle"></span>
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+      </a>
+      <a id="patientLogin" href="#" class="animated-button">
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-2"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+        <span class="text">Login as Patient</span>
+        <span class="circle"></span>
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+      </a>
+      <a id="pharmacistLogin" href="#" class="animated-button">
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-2"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+        <span class="text">Login as Pharmacist</span>
+        <span class="circle"></span>
+        <svg
+          viewBox="0 0 24 24"
+          class="arr-1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+          ></path>
+        </svg>
+      </a>
+    </div>
+
+    <p id="accountInfo"></p>
+
+    <script>
+      document
+        .getElementById("connectWallet")
+        .addEventListener("click", async () => {
+          if (typeof window.ethereum !== "undefined") {
+            try {
+              const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+              });
+              const userAddress = accounts[0];
+
+              document.getElementById(
+                "accountInfo"
+              ).innerText = `Connected: ${userAddress}`;
+
+              document.getElementById(
+                "doctorLogin"
+              ).href = `login.html?role=doctor&wallet=${userAddress}`;
+              document.getElementById(
+                "patientLogin"
+              ).href = `login.html?role=patient&wallet=${userAddress}`;
+              document.getElementById(
+                "pharmacistLogin"
+              ).href = `login.html?role=pharmacist&wallet=${userAddress}`;
+            } catch (error) {
+              console.error("User denied MetaMask connection", error);
+            }
+          } else {
+            alert(
+              "MetaMask is not installed. Please install MetaMask to continue."
+            );
+          }
+        });
+
+      function addTechGlow() {
+        const safe = document.querySelector("#finalHeading .safe");
+        const prescribe = document.querySelector("#finalHeading .prescribe");
+
+        const glowStyle = document.createElement("style");
+        glowStyle.textContent = `
+                @keyframes techGlow {
+                    0% { filter: drop-shadow(0 0 3px rgba(0, 255, 179, 0.2)); }
+                    50% { filter: drop-shadow(0 0 8px rgba(0, 255, 179, 0.4)); }
+                    100% { filter: drop-shadow(0 0 3px rgba(0, 255, 179, 0.2)); }
+                }
+                
+                @keyframes lineGlow {
+                    0% { opacity: 0.5; }
+                    50% { opacity: 0.8; }
+                    100% { opacity: 0.5; }
+                }
+            `;
+        document.head.appendChild(glowStyle);
+
+        safe.style.animation = "techGlow 3s infinite ease-in-out";
+        prescribe.style.animation = "techGlow 3s infinite ease-in-out 1.5s";
+
+        const headingContainer = document.querySelector(".heading-container");
+        const afterElement = window.getComputedStyle(
+          headingContainer,
+          "::after"
+        );
+        if (afterElement) {
+          document.styleSheets[0].insertRule(
+            ".heading-container::after { animation: lineGlow 4s infinite ease-in-out; }",
+            0
+          );
+        }
+      }
+
+      function animateHeading() {
+        setTimeout(() => {
+          pixels.forEach((pixel) => {
+            pixel.element.style.opacity = "0";
+          });
+
+          finalHeading.style.opacity = "1";
+
+          setTimeout(addTechGlow, 500);
+        }, 3000);
+      }
+
+      function animateHeading() {
+        const heading = document.getElementById("animatedHeading");
+        const finalHeading = document.getElementById("finalHeading");
+        const safeText = "Safe";
+        const prescribeText = "Prescribe";
+        const fullText = safeText + prescribeText;
+        heading.innerHTML = "";
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const headingContainer = document.querySelector(".heading-container");
+        const containerWidth = headingContainer.clientWidth;
+        const containerHeight = headingContainer.clientHeight;
+
+        canvas.width = containerWidth;
+        canvas.height = containerHeight;
+
+        let fontSize;
+        if (window.innerWidth <= 480) {
+          fontSize = Math.min(80, containerWidth / 10);
+        } else if (window.innerWidth <= 768) {
+          fontSize = Math.min(100, containerWidth / 10);
+        } else {
+          fontSize = Math.min(140, containerWidth / 10);
+        }
+
+        ctx.font = `900 ${fontSize}px Audrey, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        const safeMetrics = ctx.measureText(safeText);
+        const prescribeMetrics = ctx.measureText(prescribeText);
+        const fullTextWidth = safeMetrics.width + prescribeMetrics.width;
+
+        if (fullTextWidth > containerWidth * 0.95) {
+          fontSize = (fontSize * (containerWidth * 0.95)) / fullTextWidth;
+          ctx.font = `900 ${fontSize}px Audrey, sans-serif`;
+        }
+
+        finalHeading.style.fontSize = `${fontSize}px`;
+
+        const startX = (containerWidth - fullTextWidth) / 2;
+
+        ctx.fillStyle = "rgb(9, 127, 90)";
+        ctx.fillText(
+          safeText,
+          startX + safeMetrics.width / 2,
+          containerHeight / 2
+        );
+
+        ctx.fillStyle = "#5fae91";
+        ctx.fillText(
+          prescribeText,
+          startX + safeMetrics.width + prescribeMetrics.width / 2,
+          containerHeight / 2
+        );
+
+        const imageData = ctx.getImageData(
+          0,
+          0,
+          containerWidth,
+          containerHeight
+        );
+        const pixelPositions = [];
+
+        for (let y = 0; y < containerHeight; y += 3) {
+          for (let x = 0; x < containerWidth; x += 3) {
+            const index = (y * containerWidth + x) * 4;
+            if (imageData.data[index + 3] > 0) {
+              const isSafe = x < startX + safeMetrics.width;
+              pixelPositions.push({ x, y, isSafe });
+            }
+          }
+        }
+
+        const pixelCount = Math.min(pixelPositions.length, 900);
+        const pixels = [];
+
+        const shuffledPositions = pixelPositions
+          .sort(() => Math.random() - 0.5)
+          .slice(0, pixelCount);
+
+        for (let i = 0; i < pixelCount && i < shuffledPositions.length; i++) {
+          const pixel = document.createElement("div");
+          const position = shuffledPositions[i];
+          const isSafe = position.isSafe;
+
+          pixel.className = `pixel ${isSafe ? "safe" : "prescribe"}`;
+
+          const randomX = Math.random() * containerWidth;
+          const randomY = Math.random() * containerHeight;
+
+          pixel.style.left = randomX + "px";
+          pixel.style.top = randomY + "px";
+
+          const delay = Math.random() * 0.5;
+          pixel.style.transitionDelay = `${delay}s`;
+
+          heading.appendChild(pixel);
+          pixels.push({
+            element: pixel,
+            targetX: position.x,
+            targetY: position.y,
+          });
+        }
+
+        setTimeout(() => {
+          pixels.forEach((pixel) => {
+            pixel.element.style.opacity = "1";
+          });
+        }, 100);
+
+        setTimeout(() => {
+          pixels.forEach((pixel) => {
+            pixel.element.style.left = pixel.targetX + "px";
+            pixel.element.style.top = pixel.targetY + "px";
+          });
+        }, 1000);
+
+        setTimeout(() => {
+          pixels.forEach((pixel) => {
+            pixel.element.style.opacity = "0";
+          });
+
+          finalHeading.style.opacity = "1";
+        }, 3000);
+      }
+
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes fadeIn {
+                to { opacity: 1; }
+            }
+            
+            @keyframes fadeOut {
+                to { opacity: 0; }
+            }
+        `;
+      document.head.appendChild(style);
+
+      window.addEventListener("load", animateHeading);
+    </script>
+  </body>
+</html>
