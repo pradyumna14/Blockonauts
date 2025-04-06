@@ -294,9 +294,13 @@
         <button onclick="copyTransactionHash()" class="btn">
           Copy Transaction Hash
         </button>
+        <button onclick="" class="btn">
+          View Past Prescriptions
+        </button>
       </div>
     </div>
 
+    <!-- Chatbot Container -->
     <div class="chat-container" id="chatContainer">
       <div class="chat-header" id="chatHeader">AI Health Assistant</div>
       <div class="chat-body" id="chatBody">
@@ -388,6 +392,9 @@
 
       window.onload = fetchTransactionHash;
 
+      // Make the chat container draggable
+      // dragElement(document.getElementById("chatContainer"));
+
       function dragElement(elmnt) {
         var pos1 = 0,
           pos2 = 0,
@@ -401,7 +408,7 @@
         }
 
         function dragMouseDown(e) {
-          if (e.target.closest(".chat-footer")) return; 
+          if (e.target.closest(".chat-footer")) return; // Prevent dragging from the footer
           e = e || window.event;
           e.preventDefault();
           pos3 = e.clientX;
@@ -429,8 +436,9 @@
     </script>
 
     <script>
-      let map = L.map("map").setView([20, 78], 5); 
+      let map = L.map("map").setView([20, 78], 5); // Default: India
 
+      // Load OpenStreetMap tiles
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
       }).addTo(map);
@@ -444,6 +452,7 @@
         }
 
         try {
+          // Step 1: Convert location to lat/lon
           let geoRes = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${location}`
           );
@@ -458,6 +467,7 @@
           let lon = geoData[0].lon;
           map.setView([lat, lon], 14);
 
+          // Step 2: Query Overpass API with a larger radius (10km)
           let overpassQuery = `
                     [out:json];
                     (
@@ -474,6 +484,7 @@
           let overpassRes = await fetch(overpassUrl);
           let overpassData = await overpassRes.json();
 
+          // Clear previous markers
           map.eachLayer((layer) => {
             if (layer instanceof L.Marker) {
               map.removeLayer(layer);
@@ -485,10 +496,12 @@
             return;
           }
 
+          // Step 3: Display pharmacies on the map
           overpassData.elements.forEach((pharmacy) => {
             let { lat, lon, tags } = pharmacy;
             let name = tags.name || "Unnamed Pharmacy";
 
+            // Some ways/relations have center nodes instead of lat/lon
             if (!lat || !lon) {
               if (pharmacy.center) {
                 lat = pharmacy.center.lat;
