@@ -1,4 +1,3 @@
-# Team Blockonauts
 ## Project name: SafePrescribe
 
 Please Download Ganache GUI -Desktop app
